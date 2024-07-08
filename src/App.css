@@ -51,7 +51,7 @@ body {
 
 /* -------------------------- APP CUSTOM STYLES -------------------------- */
 /* Heres some pre-made styling you can add you your elements to save some
-time on styling. Youll have to think about the structure of your html and
+time on styling. You'll have to think about the structure of your html and
 add the given classes to the correct elements. Most elements will need parent
 divs in order for these classes to work, so pay attention to the nested
 styles. Learn more about nested selectors here: 
@@ -69,6 +69,25 @@ these styles and create your own styles and layout for the application.
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
+
+  .app-heading-circle {
+    background: var(--col-2);
+    width: 7rem;
+    height: 7rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 4rem;
+    box-shadow: 2px 4px 10px hsla(0, 0%, 0%, 0.3),
+      2px 4px 20px hsla(0, 0%, 0%, 0.2);
+
+    .app-logo {
+      width: 5rem;
+      filter: drop-shadow(1px 1px 11px var(--col-0));
+    }
+  }
 
   /** Class for the text for the heading. It should be added to an h1 inside of the div with the .app-heading class*/
   .app-heading-text {
