@@ -102,7 +102,7 @@ export const App = () => {
                   title="This joke is bad"
                   onClick={() => handleDeleteJoke(joke)}
                 >
-                  <i class="fa-solid fa-trash"></i>
+                  <i className="fa-solid fa-trash"></i>
                 </button>
                 <button
                   title="Move to Told"
@@ -128,7 +128,7 @@ export const App = () => {
                   title="This joke is bad"
                   onClick={() => handleDeleteJoke(joke)}
                 >
-                  <i class="fa-solid fa-trash"></i>
+                  <i className="fa-solid fa-trash"></i>
                 </button>
                 <button
                   title="Move to Untold"
