@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
-import { addNewJoke, getAllJokes } from "./services/jokeService.jsx";
+import {
+  addNewJoke,
+  deleteJoke,
+  getAllJokes,
+  moveJoke,
+} from "./services/jokeService.jsx";
 import stevePic from "./assets/steve.png";
 export const App = () => {
   const [newJoke, setNewJoke] = useState("");
   const [allJokes, setAllJokes] = useState([]);
   const [untoldJokes, setUntoldJokes] = useState([]);
   const [toldJokes, setToldJokes] = useState([]);
-  // const [render, setRender] = useState(0);
 
   useEffect(() => {
     updateJokes();
@@ -27,16 +31,33 @@ export const App = () => {
   };
 
   const handleSubmit = async () => {
-    const jokeObject = {
-      text: newJoke,
-      told: false,
+    if (newJoke != "") {
+      const jokeObject = {
+        text: newJoke,
+        told: false,
+      };
+      await addNewJoke(jokeObject);
+      setNewJoke("");
+      updateJokes();
+    } else {
+      window.alert("please type a joke");
+    }
+  };
+
+  const handleMoveJoke = async (joke) => {
+    const updatedJoke = {
+      id: joke.id,
+      text: joke.text,
+      told: !joke.told,
     };
-    await addNewJoke(jokeObject);
-    setNewJoke("");
+
+    await moveJoke(updatedJoke);
     updateJokes();
   };
-  const moveJoke = (event) => {
-    console.log(event.currentTarget.value);
+
+  const handleDeleteJoke = async (joke) => {
+    await deleteJoke(joke);
+    updateJokes();
   };
 
   return (
@@ -48,12 +69,13 @@ export const App = () => {
         <h1 className="app-heading-text">Chuckle Checklist</h1>
       </div>
       <h2>Add Joke</h2>
-      <div className="joke-add-form">
+      <form className="joke-add-form">
         <input
           className="joke-input"
           type="text"
           placeholder="New One Liner"
           value={newJoke}
+          required
           onChange={(event) => {
             setNewJoke(event.target.value);
           }}
@@ -65,7 +87,7 @@ export const App = () => {
         >
           ADD
         </button>
-      </div>
+      </form>
       <div className="joke-lists-container">
         <div className="joke-list-container">
           <h2>
@@ -76,8 +98,19 @@ export const App = () => {
             {untoldJokes.map((joke) => (
               <li key={joke.id} className="joke-list-item">
                 <p className="joke-list-item-text">{joke.text}</p>
-                <button value={joke} title="Move to Told" onClick={moveJoke}>
-                  <i className="fa-solid fa-arrow-right" />
+                <button
+                  title="This joke is bad"
+                  onClick={() => handleDeleteJoke(joke)}
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+                <button
+                  title="Move to Told"
+                  value={joke}
+                  id={joke.id}
+                  onClick={() => handleMoveJoke(joke)}
+                >
+                  <i className="fa-solid fa-arrow-right" id={joke.id} />
                 </button>
               </li>
             ))}
@@ -91,8 +124,18 @@ export const App = () => {
             {toldJokes.map((joke) => (
               <li key={joke.id} className="joke-list-item">
                 <p className="joke-list-item-text">{joke.text}</p>
-                <button title="Move to Untold">
-                  <i className="fa-solid fa-arrow-left"></i>
+                <button
+                  title="This joke is bad"
+                  onClick={() => handleDeleteJoke(joke)}
+                >
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+                <button
+                  title="Move to Untold"
+                  id={joke.id}
+                  onClick={() => handleMoveJoke(joke)}
+                >
+                  <i className="fa-solid fa-arrow-left" id={joke.id}></i>
                 </button>
               </li>
             ))}
